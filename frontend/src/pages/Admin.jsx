@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Card, Form, Container, Row, Col } from "react-bootstrap";
 import AdminProductList from "../components/AdminProductList";
+import { deleteProduct } from "../api/ProductApi";
 
 export default function AdminProductPage({ products, setProducts }) {
   const [editId, setEditId] = useState(null);
@@ -10,8 +11,15 @@ export default function AdminProductPage({ products, setProducts }) {
     quantity: "",
   });
 
-  const handleDelete = (id) => {
-    setProducts(products.filter((product) => product._id !== id));
+  const handleDelete = async (id) => {
+    try {
+      const res = await deleteProduct(id);
+      if (res.status === 200) {
+        setProducts(products.filter((product) => product._id !== id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleEdit = (product) => {

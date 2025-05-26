@@ -7,19 +7,7 @@ import { Col, Container, Row } from "react-bootstrap";
 const Products = ({ products, setProducts }) => {
   const [updateData, setUpdateData] = useState({});
 
-  const handleDeleteProduct = async (id) => {
-    try {
-      const res = await deleteProduct(id);
-      if (res.status === 200) {
-        const UpdatedProducts = products.filter((currProduct) => {
-          return currProduct._id !== id;
-        });
-        setProducts(UpdatedProducts);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
 
   const handleUpdateProduct = (product) => {
     setUpdateData(product);
