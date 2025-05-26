@@ -4,15 +4,8 @@ import Form from "./Form";
 import Card from "./Card";
 import { Col, Container, Row } from "react-bootstrap";
 
-const Products = () => {
-  const [products, setProducts] = useState([]);
+const Products = ({ products, setProducts }) => {
   const [updateData, setUpdateData] = useState({});
-
-  const getProductData = async () => {
-    const res = await getProducts();
-    console.log(res.data);
-    setProducts(res.data);
-  };
 
   const handleDeleteProduct = async (id) => {
     try {
@@ -32,9 +25,6 @@ const Products = () => {
     setUpdateData(product);
   };
 
-  useEffect(() => {
-    getProductData();
-  }, []);
   return (
     <Container className="py-4">
       <Row className="g-4">
