@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Card, Form, Container, Row, Col } from "react-bootstrap";
 import AdminProductList from "../components/AdminProductList";
-import { deleteProduct } from "../api/ProductApi";
+import { deleteProduct, UpdateProduct } from "../api/ProductApi";
 
 export default function AdminProductPage({ products, setProducts }) {
   const [editId, setEditId] = useState(null);
@@ -31,13 +31,20 @@ export default function AdminProductPage({ products, setProducts }) {
     });
   };
 
-  const handleUpdate = (id) => {
-    setProducts(
-      products.map((product) =>
-        product._id === id ? { ...product, ...editData } : product
-      )
-    );
-    setEditId(null);
+  const handleUpdate = async (id) => {
+    try {
+      const res = await UpdateProduct(editData, editId);
+      if (res.status === 200) {
+        setProducts(
+          products.map((product) =>
+            product._id === id ? { ...product, ...editData } : product
+          )
+        );
+        setEditId(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
