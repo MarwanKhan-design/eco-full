@@ -33,9 +33,14 @@ const Form = ({ products, setProducts, updateData, setUpdateData }) => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    addProductData();
+    await addProductData();
+    setAddData({
+      name: "",
+      price: 0,
+      quantity: 0,
+    });
   };
 
   return (

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { deleteProduct, getProducts } from "../api/ProductApi";
 import Form from "./Form";
+import Card from "./Card";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -34,42 +36,15 @@ const Products = () => {
     getProductData();
   }, []);
   return (
-    <>
-      <section className="section-form">
-        <Form
-          products={products}
-          setProducts={setProducts}
-          updateData={updateData}
-          setUpdateData={setUpdateData}
-        />
-      </section>
-      <section className="section-products">
-        <ul>
-          <ol>
-            {products.map((product) => {
-              const { _id, name, quantity, price } = product;
-
-              return (
-                <li key={_id}>
-                  <p>Name: {name}</p>
-                  <p>Quantity: {quantity}</p>
-                  <p>Price: {price}</p>
-                  <button onClick={() => handleUpdateProduct(product)}>
-                    Edit
-                  </button>
-                  <button
-                    className="btn-delete"
-                    onClick={() => handleDeleteProduct(_id)}
-                  >
-                    Delete
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        </ul>
-      </section>
-    </>
+    <Container className="py-4">
+      <Row className="g-4">
+        {products.map((product, index) => (
+          <Col key={index} xs={12} sm={6} md={4} lg={3}>
+            <Card product={product} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 };
 

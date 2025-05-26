@@ -1,11 +1,20 @@
-import "./App.css";
-import Products from "./components/Products";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import Admin from "./pages/Admin";
+import CustomNavbar from "./components/Navbar";
 
 function App() {
   return (
-    <section className="main-section">
-      <Products />
-    </section>
+    <>
+      <Router>
+        <CustomNavbar />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
