@@ -31,7 +31,7 @@ const FeaturedProductCard = ({ product }) => {
     >
       <Card.Img
         variant="top"
-        src={"https://placehold.co/600x400"}
+        src={product.image ? product.image : "https://placehold.co/600x400"}
         style={{ height: "220px", objectFit: "cover" }}
       />
       <Card.Body className="text-center">

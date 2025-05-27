@@ -4,6 +4,7 @@ import Admin from "./pages/Admin";
 import CustomNavbar from "./components/Navbar";
 import { useEffect, useState } from "react";
 import { getProducts } from "./api/ProductApi";
+import CreateProductForm from "./pages/CreateProduct";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -30,6 +31,15 @@ function App() {
           <Route
             path="/admin"
             element={<Admin products={products} setProducts={setProducts} />}
+          />
+          <Route
+            path="/create/product"
+            element={
+              <CreateProductForm
+                products={products}
+                setProducts={setProducts}
+              />
+            }
           />
         </Routes>
       </Router>

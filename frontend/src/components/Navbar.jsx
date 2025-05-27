@@ -15,7 +15,7 @@ const CustomNavbar = () => {
   };
 
   return (
-    <Navbar expand="lg" variant="dark" fixed="top" style={navbarStyle}>
+    <Navbar expand="lg" variant="dark" style={navbarStyle}>
       <Container>
         <Navbar.Brand as={Link} to="/" className="fw-bold text-white">
           MyBrand
@@ -28,6 +28,9 @@ const CustomNavbar = () => {
             </Nav.Link>
             <Nav.Link as={Link} to="/admin" style={linkStyle}>
               Admin
+            </Nav.Link>
+            <Nav.Link as={Link} to="/create/product" style={linkStyle}>
+              Create Product
             </Nav.Link>
 
             <Button variant="outline-light" size="sm" className="ms-3">
