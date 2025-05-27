@@ -10,8 +10,9 @@ const getProducts = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
+  const imageUrl = req.file.path;
   try {
-    const product = await Product.create(req.body);
+    const product = await Product.create({ ...req.body, image: imageUrl });
     res.status(200).json(product);
   } catch (error) {
     console.log(error);

@@ -2,6 +2,8 @@ import express, { json } from "express";
 import mongoose from "mongoose";
 import productRoutes from "./routes/product.route.js";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -15,6 +17,7 @@ app.use("/api/products", productRoutes);
 
 app.listen(3000, () => {
   console.log("Server 3000");
+  console.log("Cloudinary Key:", process.env.CLOUDINARY_API_KEY);
 });
 
 mongoose

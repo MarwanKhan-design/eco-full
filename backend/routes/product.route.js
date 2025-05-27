@@ -6,12 +6,16 @@ import {
   getProducts,
   updateProduct,
 } from "../controllers/product.controller.js";
+import multer from "multer";
+import {storage} from '../config/cloudinary.js'
 
 const router = express.Router();
 
+const upload = multer({ storage });
+
 router.get("/", getProducts);
 
-router.post("/", createProduct);
+router.post("/", upload.single("image"), createProduct);
 
 router.get("/:id", getProductById);
 
