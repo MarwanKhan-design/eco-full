@@ -9,13 +9,28 @@ export const getProducts = () => {
 };
 
 export const deleteProduct = (id) => {
-  return api.delete(`/${id}`);
+  const token = localStorage.getItem("token");
+  return api.delete(`/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const CreateProduct = (product) => {
-  return api.post(`/`, product);
+  const token = localStorage.getItem("token");
+  return api.post(`/`, product, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const UpdateProduct = (product, id) => {
-  return api.put(`/${id}`, product);
+  const token = localStorage.getItem("token");
+  return api.put(`/${id}`, product, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

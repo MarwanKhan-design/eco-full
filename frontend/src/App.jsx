@@ -5,6 +5,9 @@ import CustomNavbar from "./components/Navbar";
 import { useEffect, useState } from "react";
 import { getProducts } from "./api/ProductApi";
 import CreateProductForm from "./pages/CreateProduct";
+import { ProtectedRoute } from "./util/protectedRoute.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -30,16 +33,30 @@ function App() {
           />
           <Route
             path="/admin"
-            element={<Admin products={products} setProducts={setProducts} />}
+            element={
+              <ProtectedRoute>
+                <Admin products={products} setProducts={setProducts} />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/create/product"
             element={
-              <CreateProductForm
-                products={products}
-                setProducts={setProducts}
-              />
+              <ProtectedRoute>
+                <CreateProductForm
+                  products={products}
+                  setProducts={setProducts}
+                />
+              </ProtectedRoute>
             }
+          />
+          <Route
+            path="/login"
+            element={<Login products={products} setProducts={setProducts} />}
+          />
+          <Route
+            path="/register"
+            element={<Register products={products} setProducts={setProducts} />}
           />
         </Routes>
       </Router>

@@ -26,8 +26,8 @@ router.post(
 
 router.get("/:id", getProductById);
 
-router.put("/:id", updateProduct, protect, restrictToAdmin);
+router.put("/:id", protect, restrictToAdmin, updateProduct);
 
-router.delete("/:id", deleteProduct);
+router.delete("/:id", protect, restrictToAdmin, deleteProduct);
 
 export default router;

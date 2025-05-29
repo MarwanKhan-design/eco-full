@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -14,6 +14,24 @@ const CustomNavbar = () => {
     padding: "0.5rem 1rem",
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      user.role === "admin" ? setIsAdmin(true) : setIsAdmin(false);
+    }
+
+    console.log(user);
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   return (
     <Navbar expand="lg" variant="dark" style={navbarStyle}>
       <Container>
@@ -26,16 +44,40 @@ const CustomNavbar = () => {
             <Nav.Link as={Link} to="/" style={linkStyle}>
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/admin" style={linkStyle}>
-              Admin
-            </Nav.Link>
-            <Nav.Link as={Link} to="/create/product" style={linkStyle}>
-              Create Product
-            </Nav.Link>
-
-            <Button variant="outline-light" size="sm" className="ms-3">
-              Sign In
-            </Button>
+            {isLoggedIn ? (
+              <>
+                {isAdmin ? (
+                  <>
+                    <Nav.Link as={Link} to="/admin" style={linkStyle}>
+                      Admin
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/create/product" style={linkStyle}>
+                      Create Product
+                    </Nav.Link>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    localStorage.clear();
+                    window.location.href = "/login";
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/login" style={linkStyle}>
+                  Login
+                </Nav.Link>
+                <Nav.Link as={Link} to="/register" style={linkStyle}>
+                  Register
+                </Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
