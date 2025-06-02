@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useAuth } from "../util/AuthContext";
 
 const CustomNavbar = () => {
   const navbarStyle = {
@@ -14,8 +15,10 @@ const CustomNavbar = () => {
     padding: "0.5rem 1rem",
   };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  // const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
+
+  const { isLoggedIn, logout } = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,11 +28,11 @@ const CustomNavbar = () => {
     }
 
     console.log(user);
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    // if (token) {
+    //   setIsLoggedIn(true);
+    // } else {
+    //   setIsLoggedIn(false);
+    // }
   }, []);
 
   return (
@@ -62,6 +65,7 @@ const CustomNavbar = () => {
                   variant="danger"
                   onClick={() => {
                     localStorage.clear();
+                    logout();
                     window.location.href = "/login";
                   }}
                 >

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
 import { loginUser } from "../api/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../util/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const { login } = useAuth();
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -17,6 +19,7 @@ export default function Login() {
       const { data } = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      login();
       navigate("/admin");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
