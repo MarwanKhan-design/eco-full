@@ -23,7 +23,7 @@ const createProduct = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.find({ _id: id });
+    const product = await Product.findOne({ _id: id });
     res.send(product);
   } catch (error) {
     res.status(500).json(error.message);

@@ -7,6 +7,9 @@ const api = axios.create({
 export const getProducts = () => {
   return api.get("/");
 };
+export const getProduct = (id) => {
+  return api.get(`/${id}`);
+};
 
 export const deleteProduct = (id) => {
   const token = localStorage.getItem("token");

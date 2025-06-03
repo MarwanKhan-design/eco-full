@@ -8,6 +8,7 @@ import CreateProductForm from "./pages/CreateProduct";
 import { ProtectedRoute } from "./util/protectedRoute.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import ProductPage from "./pages/SingleProduct.jsx";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -58,6 +59,7 @@ function App() {
             path="/register"
             element={<Register products={products} setProducts={setProducts} />}
           />
+          <Route path="/product/:id" element={<ProductPage />} />
         </Routes>
       </Router>
     </>

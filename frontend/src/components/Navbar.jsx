@@ -28,12 +28,7 @@ const CustomNavbar = () => {
     }
 
     console.log(user);
-    // if (token) {
-    //   setIsLoggedIn(true);
-    // } else {
-    //   setIsLoggedIn(false);
-    // }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <Navbar expand="lg" variant="dark" style={navbarStyle}>

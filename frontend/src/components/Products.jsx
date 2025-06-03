@@ -7,8 +7,6 @@ import { Col, Container, Row } from "react-bootstrap";
 const Products = ({ products, setProducts }) => {
   const [updateData, setUpdateData] = useState({});
 
-  
-
   const handleUpdateProduct = (product) => {
     setUpdateData(product);
   };
