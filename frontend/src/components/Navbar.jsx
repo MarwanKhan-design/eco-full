@@ -3,7 +3,7 @@ import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../util/AuthContext";
 
-const CustomNavbar = () => {
+const CustomNavbar = ({ categories }) => {
   const navbarStyle = {
     background: "rgba(0, 0, 0, 0.6)",
     backdropFilter: "blur(6px)",
@@ -15,19 +15,22 @@ const CustomNavbar = () => {
     padding: "0.5rem 1rem",
   };
 
-  // const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
-
   const { isLoggedIn, logout } = useAuth();
 
+  // Sample categories - replace with your actual categories
+  // const categories = [
+  //   { name: "Beds", path: "/category/beds" },
+  //   { name: "Sofas", path: "/category/sofas" },
+  //   { name: "Chairs", path: "/category/chairs" },
+  //   { name: "Tables", path: "/category/tables" },
+  // ];
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       user.role === "admin" ? setIsAdmin(true) : setIsAdmin(false);
     }
-
-    console.log(user);
   }, [isLoggedIn]);
 
   return (
@@ -38,13 +41,28 @@ const CustomNavbar = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
+          {/* Left-aligned nav (empty to push categories to center) */}
+          <Nav className="me-auto"></Nav>
+
+          {/* Center-aligned categories */}
+          <Nav className="mx-auto">
+            {categories.map((category) => (
+              <Nav.Link
+                key={category.name}
+                as={Link}
+                to={`/category/${category.name}`}
+                style={linkStyle}
+              >
+                {category.name}
+              </Nav.Link>
+            ))}
+          </Nav>
+
+          {/* Right-aligned auth links */}
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/" style={linkStyle}>
-              Home
-            </Nav.Link>
             {isLoggedIn ? (
               <>
-                {isAdmin ? (
+                {isAdmin && (
                   <>
                     <Nav.Link as={Link} to="/admin" style={linkStyle}>
                       Admin
@@ -53,8 +71,6 @@ const CustomNavbar = () => {
                       Create Product
                     </Nav.Link>
                   </>
-                ) : (
-                  <></>
                 )}
                 <Button
                   variant="danger"

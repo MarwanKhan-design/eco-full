@@ -2,6 +2,7 @@ import express from "express";
 import {
   createProduct,
   deleteProduct,
+  getProductByCategory,
   getProductById,
   getProducts,
   updateProduct,
@@ -25,6 +26,7 @@ router.post(
 );
 
 router.get("/:id", getProductById);
+router.get("/category/:id", getProductByCategory);
 
 router.put("/:id", protect, restrictToAdmin, updateProduct);
 

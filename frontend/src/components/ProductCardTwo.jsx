@@ -1,0 +1,54 @@
+import React from "react";
+import { Card, Button } from "react-bootstrap";
+import "../styles/productCardTwo.css";
+import { useNavigate } from "react-router-dom";
+
+const ProductCardTwo = ({ product }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div
+      className="product-card position-relative"
+      onClick={() => navigate(`/product/${product._id}`)}
+      style={{ cursor: "pointer" }}
+    >
+      <Card className="border-0 rounded-0 overflow-hidden bg-light">
+        <div className="position-relative">
+          <Card.Img
+            src={product.image}
+            alt={product.name}
+            className="product-image"
+          />
+
+          {/* Hover Overlay */}
+          <div className="overlay d-flex align-items-center justify-content-center">
+            <Button variant="light" className="fw-semibold text-dark shadow-sm">
+              Add to cart
+            </Button>
+          </div>
+        </div>
+
+        <Card.Body className="bg-white px-2 py-3">
+          <Card.Title className="fs-6 fw-semibold mb-1">
+            {product.name}
+          </Card.Title>
+          <Card.Text className="text-muted mb-2">
+            {product.description}
+          </Card.Text>
+          <div>
+            <span className="fw-bold text-dark me-2">
+              Price: {product.price}
+            </span>
+            {product.originalPrice && (
+              <span className="text-muted text-decoration-line-through">
+                {product.originalPrice}
+              </span>
+            )}
+          </div>
+        </Card.Body>
+      </Card>
+    </div>
+  );
+};
+
+export default ProductCardTwo;

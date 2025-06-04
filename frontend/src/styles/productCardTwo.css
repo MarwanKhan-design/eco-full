@@ -1,0 +1,27 @@
+.product-card {
+  width: 263px;
+  height: 350px;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image {
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 250px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .overlay {
+  opacity: 1;
+}

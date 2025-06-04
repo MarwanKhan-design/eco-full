@@ -10,6 +10,9 @@ export const getProducts = () => {
 export const getProduct = (id) => {
   return api.get(`/${id}`);
 };
+export const getProductsByCategory = (id) => {
+  return api.get(`/category/${id}`);
+};
 
 export const deleteProduct = (id) => {
   const token = localStorage.getItem("token");

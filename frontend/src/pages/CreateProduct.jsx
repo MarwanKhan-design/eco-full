@@ -13,12 +13,13 @@ import {
 import { CreateProduct } from "../api/ProductApi";
 import { useNavigate } from "react-router-dom";
 
-const AdminProductForm = ({ products, setProducts }) => {
+const AdminProductForm = ({ products, setProducts, categories }) => {
   const [form, setForm] = useState({
     name: "",
     price: "",
     quantity: "",
     image: null,
+    category: "",
   });
 
   const [preview, setPreview] = useState("");
@@ -40,7 +41,13 @@ const AdminProductForm = ({ products, setProducts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.price || !form.quantity || !form.image) {
+    if (
+      !form.name ||
+      !form.price ||
+      !form.quantity ||
+      !form.image ||
+      !form.category
+    ) {
       setMessage("All fields are required.");
       return;
     }
@@ -49,6 +56,7 @@ const AdminProductForm = ({ products, setProducts }) => {
     formData.append("name", form.name);
     formData.append("price", form.price);
     formData.append("quantity", form.quantity);
+    formData.append("category", form.category);
     formData.append("image", form.image);
 
     setUploading(true);
@@ -59,7 +67,13 @@ const AdminProductForm = ({ products, setProducts }) => {
       if (res.status === 200) {
         setProducts([res.data, ...products]);
         setMessage("Product added successfully!");
-        setForm({ name: "", price: "", quantity: "", image: null });
+        setForm({
+          name: "",
+          price: "",
+          quantity: "",
+          image: null,
+          category: "",
+        });
         setPreview("");
         navigate("/admin");
       }
@@ -114,6 +128,22 @@ const AdminProductForm = ({ products, setProducts }) => {
                     onChange={handleChange}
                     placeholder="Enter product quantity"
                   />
+                </Form.Group>
+
+                <Form.Group controlId="exampleSelect">
+                  <Form.Label>Select Category</Form.Label>
+                  <Form.Select
+                    value={form.category}
+                    onChange={handleChange}
+                    name="category"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((category) => {
+                      return (
+                        <option value={category._id}>{category.name}</option>
+                      );
+                    })}
+                  </Form.Select>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="productImage">

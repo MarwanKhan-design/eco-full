@@ -30,7 +30,7 @@ const ProductPage = () => {
     id: "123",
     name: "Product Not Found",
     price: 0,
-    category: "",
+    category: { name: "" },
     colors: [],
     estimatedDelivery: "",
     paymentMethods: [],
@@ -45,15 +45,15 @@ const ProductPage = () => {
 
   const getProductData = async () => {
     const res = await getProduct(id);
-    console.log(res.data);
     if (res.data) {
       setProductData(res.data);
+      console.log(res.data);
     } else {
       setProductData({
         id: "123",
         name: "Product Not Found",
         price: 0,
-        category: "",
+        category: { name: "" },
         colors: [],
         estimatedDelivery: "",
         paymentMethods: [],
@@ -76,7 +76,7 @@ const ProductPage = () => {
             alt={productData.name}
             fluid
             rounded
-            className="border"
+            className="border w-100"
           />
         </Col>
 
@@ -90,7 +90,7 @@ const ProductPage = () => {
               </Card.Subtitle>
 
               <p className="mb-2">
-                <strong>Category:</strong> {product.category}
+                <strong>Category:</strong> {productData.category.name}
               </p>
 
               {/* Colors */}

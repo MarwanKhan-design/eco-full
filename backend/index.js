@@ -2,6 +2,7 @@ import express, { json } from "express";
 import mongoose from "mongoose";
 import productRoutes from "./routes/product.route.js";
 import userRoutes from './routes/auth.route.js'
+import categoryRoutes from './routes/category.route.js'
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
@@ -14,8 +15,9 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/products", productRoutes);
 app.use('/api', userRoutes)
+app.use("/api/products", productRoutes);
+app.use('/api/categories', categoryRoutes)
 
 app.listen(3000, () => {
   console.log("Server 3000");

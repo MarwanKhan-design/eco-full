@@ -1,8 +1,9 @@
 import Product from "../models/product.model.js";
+import Category from "../models/Category.model.js";
 
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).populate("category");
     res.status(200).json(products);
   } catch (error) {
     res.status(500), json(error.message);
@@ -23,10 +24,28 @@ const createProduct = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findOne({ _id: id });
+    const product = await Product.findOne({ _id: id }).populate("category");
     res.send(product);
   } catch (error) {
     res.status(500).json(error.message);
+  }
+};
+const getProductByCategory = async (req, res) => {
+  try {
+    const { id } = req.params; // This is the category name
+
+    // First, find the category by name
+    const category = await Category.findOne({ name: id });
+    if (!category) return res.status(404).json([]); // Return empty array if not found
+
+    // Then, find products by category ID and populate category
+    const products = await Product.find({ category: category._id }).populate(
+      "category"
+    );
+
+    res.json(products); // ✅ This is an array
+  } catch (error) {
+    res.status(500).json([]); // Return empty array on error
   }
 };
 
@@ -63,4 +82,5 @@ export {
   createProduct,
   deleteProduct,
   updateProduct,
+  getProductByCategory,
 };
