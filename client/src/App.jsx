@@ -11,6 +11,7 @@ import Register from "./pages/Register.jsx";
 import ProductPage from "./pages/SingleProduct.jsx";
 import { getCategories } from "./api/CategoriesApi.js";
 import ProductsByCategory from "./pages/ProductsByCategory.jsx";
+import Cart from "./pages/Cart.jsx";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -38,6 +39,10 @@ function App() {
           <Route
             path="/"
             element={<Home products={products} setProducts={setProducts} />}
+          />
+          <Route
+            path="/cart"
+            element={<Cart products={products} setProducts={setProducts} />}
           />
           <Route
             path="/category/:name"

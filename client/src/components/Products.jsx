@@ -4,14 +4,22 @@ import Form from "./Form";
 import Card from "./Card";
 import { Col, Container, Row } from "react-bootstrap";
 import ProductCardTwo from "./ProductCardTwo";
+import { postProductToCart } from "../api/cart";
 
 const Products = ({ products, setProducts }) => {
+  const handleAddToCart = async (productId) => {
+    const res = await postProductToCart(productId, 1);
+    console.log(res.data);
+  };
   return (
     <Container className="py-4">
       <Row className="g-4">
         {products.map((product, index) => (
           <Col key={index} xs={12} sm={6} md={4} lg={3}>
-            <ProductCardTwo product={product} />
+            <ProductCardTwo
+              product={product}
+              handleAddToCart={handleAddToCart}
+            />
           </Col>
         ))}
       </Row>

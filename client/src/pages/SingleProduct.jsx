@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { getProduct } from "../api/ProductApi";
 import { useParams } from "react-router-dom";
+import { postProductToCart } from "../api/cart";
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -37,8 +38,10 @@ const ProductPage = () => {
     imageUrl: "",
   };
 
-  const handleAddToCart = () => {
-    alert(`Added ${quantity} "${product.name}" to cart!`);
+  const handleAddToCart = async () => {
+    console.log("product", productData._id);
+    const res = await postProductToCart(productData._id, quantity);
+    console.log(res.data);
   };
 
   const { id } = useParams();
@@ -150,7 +153,7 @@ const ProductPage = () => {
               <Button
                 variant="primary"
                 className="w-100 mt-3"
-                onClick={handleAddToCart}
+                onClick={() => handleAddToCart()}
               >
                 Add to Cart
               </Button>

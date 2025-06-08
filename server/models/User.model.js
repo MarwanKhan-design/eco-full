@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  cart: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      quantity: { type: Number, default: 1 },
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
