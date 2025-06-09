@@ -5,7 +5,7 @@ import Products from "../components/Products";
 const Home = ({ products, setProducts }) => {
   return (
     <>
-      <HeroSection />
+      <HeroSection heading={"Home Page"} subHeading={"Discount of 50%"} />
       <Products products={products} setProducts={setProducts} />
     </>
   );

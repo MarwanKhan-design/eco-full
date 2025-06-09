@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../util/AuthContext";
+import emptyCart from "../assets/emptyCart.png";
 
 const CustomNavbar = ({ categories }) => {
   const navbarStyle = {
@@ -82,6 +83,15 @@ const CustomNavbar = ({ categories }) => {
                 >
                   Logout
                 </Button>
+                <Nav.Link
+                  as={Link}
+                  to="/cart"
+                  style={{
+                    ...linkStyle,
+                  }}
+                >
+                  <img src={emptyCart} alt="Cart" height={"40px"} />
+                </Nav.Link>
               </>
             ) : (
               <>

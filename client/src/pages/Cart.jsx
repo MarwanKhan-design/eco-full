@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 import { getCart } from "../api/cart";
+import HeroSection from "../components/Hero";
 
 const Cart = () => {
   // Sample cart items data
@@ -28,79 +29,72 @@ const Cart = () => {
   const total = subtotal + tax;
 
   return (
-    <Container className="mt-4">
-      {/* Hero Section - ~40% of viewport height */}
-      <Row className="mb-4" style={{ height: "40vh" }}>
-        <Col>
-          <Card className="h-100 bg-primary text-white">
-            <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-              <h1>Welcome to Our Store</h1>
-              <p>Check out our amazing products</p>
-              <Button variant="light">Shop Now</Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+    <>
+      <HeroSection
+        heading={"Cart"}
+        subHeading={"Checkout Our Amazing Products"}
+      />
+      <Container className="mt-4">
+        {/* Cart and Checkout Section */}
+        <Row>
+          {/* Cart Items - Left Side */}
+          <Col md={8}>
+            <Card className="mb-4">
+              <Card.Header as="h5">
+                Your Cart ({cartItems.length} items)
+              </Card.Header>
+              <Card.Body>
+                <ListGroup variant="flush">
+                  {cartItems.map((item) => (
+                    <ListGroup.Item key={item.product_id}>
+                      <Row className="align-items-center">
+                        <Col md={6}>
+                          <strong>{item.product.name}</strong>
+                        </Col>
+                        <Col md={2}>${item.product.price.toFixed(2)}</Col>
+                        <Col md={2}>Qty: {item.quantity}</Col>
+                        <Col md={2} className="text-end">
+                          ${(item.product.price * item.quantity).toFixed(2)}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </Col>
 
-      {/* Cart and Checkout Section */}
-      <Row>
-        {/* Cart Items - Left Side */}
-        <Col md={8}>
-          <Card className="mb-4">
-            <Card.Header as="h5">
-              Your Cart ({cartItems.length} items)
-            </Card.Header>
-            <Card.Body>
-              <ListGroup variant="flush">
-                {cartItems.map((item) => (
-                  <ListGroup.Item key={item.product_id}>
-                    <Row className="align-items-center">
-                      <Col md={6}>
-                        <strong>{item.product.name}</strong>
-                      </Col>
-                      <Col md={2}>${item.product.price.toFixed(2)}</Col>
-                      <Col md={2}>Qty: {item.quantity}</Col>
-                      <Col md={2} className="text-end">
-                        ${(item.product.price * item.quantity).toFixed(2)}
-                      </Col>
-                    </Row>
+          {/* Checkout Options - Right Side */}
+          <Col md={4}>
+            <Card>
+              <Card.Header as="h5">Order Summary</Card.Header>
+              <Card.Body>
+                <ListGroup variant="flush">
+                  <ListGroup.Item className="d-flex justify-content-between">
+                    <span>Subtotal:</span>
+                    <span>${subtotal.toFixed(2)}</span>
                   </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        {/* Checkout Options - Right Side */}
-        <Col md={4}>
-          <Card>
-            <Card.Header as="h5">Order Summary</Card.Header>
-            <Card.Body>
-              <ListGroup variant="flush">
-                <ListGroup.Item className="d-flex justify-content-between">
-                  <span>Subtotal:</span>
-                  <span>${subtotal.toFixed(2)}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between">
-                  <span>Tax (10%):</span>
-                  <span>${tax.toFixed(2)}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between fw-bold">
-                  <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
-                </ListGroup.Item>
-              </ListGroup>
-              <Button variant="primary" className="w-100 mt-3">
-                Proceed to Checkout
-              </Button>
-              <Button variant="outline-secondary" className="w-100 mt-2">
-                Continue Shopping
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                  <ListGroup.Item className="d-flex justify-content-between">
+                    <span>Tax (10%):</span>
+                    <span>${tax.toFixed(2)}</span>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="d-flex justify-content-between fw-bold">
+                    <span>Total:</span>
+                    <span>${total.toFixed(2)}</span>
+                  </ListGroup.Item>
+                </ListGroup>
+                <Button variant="primary" className="w-100 mt-3">
+                  Proceed to Checkout
+                </Button>
+                <Button variant="outline-secondary" className="w-100 mt-2">
+                  Continue Shopping
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
