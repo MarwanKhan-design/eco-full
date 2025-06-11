@@ -12,10 +12,22 @@ import ProductPage from "./pages/SingleProduct.jsx";
 import { getCategories } from "./api/CategoriesApi.js";
 import ProductsByCategory from "./pages/ProductsByCategory.jsx";
 import Cart from "./pages/Cart.jsx";
+import CreateOrder from "./pages/CreateOrder.jsx";
+import { getCart } from "./api/cart.js";
 
 function App() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+
+  const getCartItems = async () => {
+    const res = await getCart();
+    if (res.status === 200) {
+      setCartItems(res.data);
+    } else {
+      console.log(res.error);
+    }
+  };
 
   const getProductData = async () => {
     const res = await getProducts();
@@ -29,6 +41,7 @@ function App() {
   useEffect(() => {
     getProductData();
     getCategoriesData();
+    getCartItems();
   }, []);
   return (
     <>
@@ -42,7 +55,13 @@ function App() {
           />
           <Route
             path="/cart"
-            element={<Cart products={products} setProducts={setProducts} />}
+            element={
+              <Cart
+                products={products}
+                setProducts={setProducts}
+                cartItems={cartItems}
+              />
+            }
           />
           <Route
             path="/category/:name"
@@ -53,6 +72,18 @@ function App() {
             element={
               <ProtectedRoute>
                 <Admin products={products} setProducts={setProducts} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order"
+            element={
+              <ProtectedRoute>
+                <CreateOrder
+                  products={products}
+                  setProducts={setProducts}
+                  cartItems={cartItems}
+                />
               </ProtectedRoute>
             }
           />

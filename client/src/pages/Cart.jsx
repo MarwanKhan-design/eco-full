@@ -2,24 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 import { getCart } from "../api/cart";
 import HeroSection from "../components/Hero";
+import { useNavigate } from "react-router-dom";
 
-const Cart = () => {
+const Cart = ({ cartItems }) => {
+  const navigate = useNavigate();
   // Sample cart items data
 
-  const [cartItems, setCartItems] = useState([]);
-
-  const getCartItems = async () => {
-    const res = await getCart();
-    if (res.status === 200) {
-      setCartItems(res.data);
-    } else {
-      console.log(res.error);
-    }
-  };
-
-  useEffect(() => {
-    getCartItems();
-  }, []);
   // Calculate total
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
@@ -70,23 +58,23 @@ const Cart = () => {
               <Card.Header as="h5">Order Summary</Card.Header>
               <Card.Body>
                 <ListGroup variant="flush">
-                  <ListGroup.Item className="d-flex justify-content-between">
-                    <span>Subtotal:</span>
-                    <span>${subtotal.toFixed(2)}</span>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="d-flex justify-content-between">
-                    <span>Tax (10%):</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </ListGroup.Item>
                   <ListGroup.Item className="d-flex justify-content-between fw-bold">
                     <span>Total:</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>${total}</span>
                   </ListGroup.Item>
                 </ListGroup>
-                <Button variant="primary" className="w-100 mt-3">
+                <Button
+                  variant="primary"
+                  className="w-100 mt-3"
+                  onClick={() => navigate("/order")}
+                >
                   Proceed to Checkout
                 </Button>
-                <Button variant="outline-secondary" className="w-100 mt-2">
+                <Button
+                  variant="outline-secondary"
+                  className="w-100 mt-2"
+                  onClick={() => navigate("/")}
+                >
                   Continue Shopping
                 </Button>
               </Card.Body>
