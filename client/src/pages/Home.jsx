@@ -3,6 +3,7 @@ import HeroSection from "../components/Hero";
 import Products from "../components/Products";
 
 const Home = ({ products, setProducts, cartItems, setCartItems }) => {
+ 
   return (
     <>
       <HeroSection heading={"Home Page"} subHeading={"Discount of 50%"} />

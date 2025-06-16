@@ -14,6 +14,13 @@ const Products = ({ products, setProducts, setCartItems, cartItems }) => {
     }
     console.log("cart", res.data);
   };
+
+  const checkProductInCart = (productId) => {
+    const product = cartItems.find((item) => productId === item.product._id);
+    console.log("Check Product in Cart", product, productId);
+    return product ? true : false;
+  };
+
   return (
     <Container className="py-4">
       <Row className="g-4">
@@ -22,6 +29,7 @@ const Products = ({ products, setProducts, setCartItems, cartItems }) => {
             <ProductCardTwo
               product={product}
               handleAddToCart={handleAddToCart}
+              checkProductInCart={checkProductInCart}
             />
           </Col>
         ))}

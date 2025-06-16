@@ -78,6 +78,7 @@ function App() {
               <ProductsByCategory
                 categories={categories}
                 setCartItems={setCartItems}
+                cartItems={cartItems}
               />
             }
           />

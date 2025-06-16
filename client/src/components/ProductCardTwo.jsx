@@ -3,7 +3,7 @@ import { Card, Button } from "react-bootstrap";
 import "../styles/productCardTwo.css";
 import { useNavigate } from "react-router-dom";
 
-const ProductCardTwo = ({ product, handleAddToCart }) => {
+const ProductCardTwo = ({ product, handleAddToCart, checkProductInCart }) => {
   const navigate = useNavigate();
 
   return (
@@ -19,13 +19,19 @@ const ProductCardTwo = ({ product, handleAddToCart }) => {
 
           {/* Hover Overlay */}
           <div className="overlay d-flex align-items-center justify-content-center">
-            <Button
-              variant="light"
-              className="fw-semibold text-dark shadow-sm"
-              onClick={() => handleAddToCart(product._id)}
-            >
-              Add to cart
-            </Button>
+            {checkProductInCart(product._id) ? (
+              <p className="fw-semibold text-light shadow-sm">
+                Already in Cart
+              </p>
+            ) : (
+              <Button
+                variant="light"
+                className="fw-semibold text-dark shadow-sm"
+                onClick={() => handleAddToCart(product._id)}
+              >
+                Add to cart
+              </Button>
+            )}
           </div>
         </div>
 

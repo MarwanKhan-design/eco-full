@@ -6,7 +6,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { postProductToCart } from "../api/cart";
 import HeroSection from "../components/Hero";
 
-const ProductsByCategory = ({ setCartItems }) => {
+const ProductsByCategory = ({ setCartItems, cartItems }) => {
   const { name } = useParams();
   const [products, setProducts] = useState([]);
 
@@ -26,6 +26,11 @@ const ProductsByCategory = ({ setCartItems }) => {
     }
     console.log(res.data);
   };
+  const checkProductInCart = (productId) => {
+    const product = cartItems.find((item) => productId === item.product._id);
+    console.log("Check Product in Cart", product, productId);
+    return product ? true : false;
+  };
   return (
     <>
       <HeroSection heading={name} />
@@ -36,6 +41,7 @@ const ProductsByCategory = ({ setCartItems }) => {
               <ProductCardTwo
                 product={product}
                 handleAddToCart={handleAddToCart}
+                checkProductInCart={checkProductInCart}
               />
             </Col>
           ))}
