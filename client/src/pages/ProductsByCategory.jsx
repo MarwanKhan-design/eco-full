@@ -6,7 +6,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { postProductToCart } from "../api/cart";
 import HeroSection from "../components/Hero";
 
-const ProductsByCategory = () => {
+const ProductsByCategory = ({ setCartItems }) => {
   const { name } = useParams();
   const [products, setProducts] = useState([]);
 
@@ -21,6 +21,9 @@ const ProductsByCategory = () => {
   }, [name]);
   const handleAddToCart = async (productId) => {
     const res = await postProductToCart(productId, 1);
+    if (res.status === 200) {
+      setCartItems(res.data);
+    }
     console.log(res.data);
   };
   return (

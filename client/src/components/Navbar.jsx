@@ -71,6 +71,9 @@ const CustomNavbar = ({ categories }) => {
                     <Nav.Link as={Link} to="/create/product" style={linkStyle}>
                       Create Product
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/all/orders" style={linkStyle}>
+                      All Orders
+                    </Nav.Link>
                   </>
                 )}
                 <Button

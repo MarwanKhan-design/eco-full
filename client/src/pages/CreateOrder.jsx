@@ -13,12 +13,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import CreateOrderForm from "../components/CreateOrderForm";
 import { OrderSummary } from "../components/OrderSummary";
-import { CreateOrder } from "../api/order";
+import { createOrder } from "../api/order";
 
-const CheckoutForm = ({ cartItems, loading }) => {
+const CheckoutForm = ({ cartItems, loading, setCartItems }) => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState("COD");
 
   const userInfo = JSON.parse(localStorage.getItem("user"));
 
@@ -31,7 +31,7 @@ const CheckoutForm = ({ cartItems, loading }) => {
       postalCode: userInfo?.postalCode || "",
       country: userInfo?.country || "",
     },
-    paymentMethod: "PayPal",
+    paymentMethod: "COD",
   });
 
   // Calculate cart total
@@ -59,10 +59,16 @@ const CheckoutForm = ({ cartItems, loading }) => {
     });
   };
 
-  const handleSubmit = async (event) => {
-    const form = event.currentTarget;
-    event.preventDefault();
-    event.stopPropagation();
+  const submitOrder = async (orderData) => {
+    const res = await createOrder(orderData);
+    if (res.status === 200 || 201) {
+      setCartItems([]);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    const form = e.currentTarget;
+    e.preventDefault();
 
     if (form.checkValidity() === false) {
       setValidated(true);
@@ -70,20 +76,20 @@ const CheckoutForm = ({ cartItems, loading }) => {
     }
 
     const orderData = {
-      items: cartItems.map((item) => ({
-        productId: item._id,
-        name: item.name,
+      products: cartItems.map((item) => ({
+        productId: item.product._id,
+        name: item.product.name,
         quantity: item.quantity,
-        price: item.price,
+        price: item.product.price,
       })),
       shippingAddress: formData.shippingAddress,
-      paymentMethod: formData.paymentMethod,
+      paymentMethod: paymentMethod,
       itemsPrice,
       shippingPrice,
-      totalPrice,
+      total: totalPrice,
     };
 
-    onSubmit(orderData);
+    submitOrder(orderData);
   };
 
   return (

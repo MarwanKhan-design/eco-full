@@ -18,7 +18,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate("cart.product");
     if (!user || !(await user.correctPassword(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }

@@ -6,10 +6,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import ProductCardTwo from "./ProductCardTwo";
 import { postProductToCart } from "../api/cart";
 
-const Products = ({ products, setProducts }) => {
+const Products = ({ products, setProducts, setCartItems, cartItems }) => {
   const handleAddToCart = async (productId) => {
     const res = await postProductToCart(productId, 1);
-    console.log(res.data);
+    if (res.status === 200) {
+      setCartItems(res.data);
+    }
+    console.log("cart", res.data);
   };
   return (
     <Container className="py-4">

@@ -1,25 +1,30 @@
 import Order from "../models/Order.model.js";
+import { User } from "../models/User.model.js";
 
 // Create a new order
 export const createOrder = async (req, res) => {
   try {
-    const { items, shippingAddress, paymentMethod, total, paymentResult } =
+    const { products, shippingAddress, paymentMethod, total, paymentResult } =
       req.body;
 
-    if (!items || items.length === 0) {
+    if (!products || products.length === 0) {
       return res.status(400).json({ message: "No order items" });
     }
 
     const order = new Order({
       user: req.user._id,
-      items,
+      products,
       shippingAddress,
       paymentMethod,
       paymentResult,
       total,
     });
 
+    const user = await User.findById(req.user._id);
+    user.cart = [];
+    user.save();
     const createdOrder = await order.save();
+
     return res.status(201).json(createdOrder);
   } catch (error) {
     return res
@@ -44,15 +49,18 @@ export const getMyOrders = async (req, res) => {
 export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate(
-      "user",
-      "name email"
+      "user"
+      // "name email"
     );
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    if (order.user._id.toString() !== req.user._id.toString()) {
+    if (
+      order.user._id.toString() !== req.user._id.toString() &&
+      req.user.role !== "admin"
+    ) {
       return res
         .status(403)
         .json({ message: "Not authorized to access this order" });

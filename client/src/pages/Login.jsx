@@ -5,7 +5,7 @@ import { loginUser } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../util/AuthContext";
 
-export default function Login() {
+export default function Login({ setCartItems }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,6 +19,8 @@ export default function Login() {
       const { data } = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      setCartItems(data.user.cart);
+      console.log(data.user.cart);
       login();
       navigate("/admin");
     } catch (err) {

@@ -16,7 +16,11 @@ const CreateOrderForm = ({
       <Card className="mb-4">
         <Card.Header as="h5">Shipping Address</Card.Header>
         <Card.Body>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={paymentMethod === "COD" ? handleSubmit : "undefined"}
+          >
             <Form.Group controlId="fullName" className="mb-3">
               <Form.Label>Full Name</Form.Label>
               <Form.Control
@@ -116,6 +120,15 @@ const CreateOrderForm = ({
                     checked={paymentMethod === "Stripe"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                   />
+                  <Form.Check
+                    type="radio"
+                    label="Cash On Delivery"
+                    id="COD"
+                    name="paymentMethod"
+                    value="COD"
+                    checked={paymentMethod === "COD"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  />
                 </Form.Group>
               </Card.Body>
             </Card>
@@ -138,7 +151,11 @@ const CreateOrderForm = ({
                     <span className="ms-2">Processing...</span>
                   </>
                 ) : (
-                  "Continue to Payment"
+                  <>
+                    {paymentMethod === "COD"
+                      ? "Order Now"
+                      : "Continue to Payment"}
+                  </>
                 )}
               </Button>
             </div>

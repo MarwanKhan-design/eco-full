@@ -14,6 +14,8 @@ import ProductsByCategory from "./pages/ProductsByCategory.jsx";
 import Cart from "./pages/Cart.jsx";
 import CreateOrder from "./pages/CreateOrder.jsx";
 import { getCart } from "./api/cart.js";
+import AdminOrders from "./pages/AdminOrders.jsx";
+import SingleOrder from "./pages/SingleOrder.jsx";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -51,7 +53,14 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home products={products} setProducts={setProducts} />}
+            element={
+              <Home
+                products={products}
+                setProducts={setProducts}
+                setCartItems={setCartItems}
+                cartItems={cartItems}
+              />
+            }
           />
           <Route
             path="/cart"
@@ -65,13 +74,30 @@ function App() {
           />
           <Route
             path="/category/:name"
-            element={<ProductsByCategory categories={categories} />}
+            element={
+              <ProductsByCategory
+                categories={categories}
+                setCartItems={setCartItems}
+              />
+            }
+          />
+          <Route
+            path="/all/orders"
+            element={<AdminOrders categories={categories} />}
           />
           <Route
             path="/admin"
             element={
               <ProtectedRoute>
                 <Admin products={products} setProducts={setProducts} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order/:id"
+            element={
+              <ProtectedRoute>
+                <SingleOrder />
               </ProtectedRoute>
             }
           />
@@ -83,6 +109,7 @@ function App() {
                   products={products}
                   setProducts={setProducts}
                   cartItems={cartItems}
+                  setCartItems={setCartItems}
                 />
               </ProtectedRoute>
             }
@@ -101,13 +128,24 @@ function App() {
           />
           <Route
             path="/login"
-            element={<Login products={products} setProducts={setProducts} />}
+            element={
+              <Login
+                products={products}
+                setProducts={setProducts}
+                setCartItems={setCartItems}
+              />
+            }
           />
           <Route
             path="/register"
             element={<Register products={products} setProducts={setProducts} />}
           />
-          <Route path="/product/:id" element={<ProductPage />} />
+          <Route
+            path="/product/:id"
+            element={
+              <ProductPage cartItems={cartItems} setCartItems={setCartItems} />
+            }
+          />
         </Routes>
       </Router>
     </>
