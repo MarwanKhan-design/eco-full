@@ -13,7 +13,7 @@ import { getProduct } from "../api/ProductApi";
 import { useParams } from "react-router-dom";
 import { postProductToCart } from "../api/cart";
 
-const ProductPage = () => {
+const ProductPage = ({ cartItems }) => {
   const [quantity, setQuantity] = useState(1);
   const [productData, setProductData] = useState({
     id: "123",
@@ -63,6 +63,14 @@ const ProductPage = () => {
         image: "",
       });
     }
+  };
+
+  const checkProductInCart = () => {
+    const product = cartItems.find(
+      (item) => productData._id === item.product._id
+    );
+    console.log("Check Product in Cart", product, productData._id);
+    return product ? true : false;
   };
 
   useEffect(() => {
@@ -150,13 +158,17 @@ const ProductPage = () => {
               </div>
 
               {/* Add to Cart */}
-              <Button
-                variant="primary"
-                className="w-100 mt-3"
-                onClick={() => handleAddToCart()}
-              >
-                Add to Cart
-              </Button>
+              {checkProductInCart() ? (
+                <h4>Already In Cart</h4>
+              ) : (
+                <Button
+                  variant="primary"
+                  className="w-100 mt-3"
+                  onClick={() => handleAddToCart()}
+                >
+                  Add to Cart
+                </Button>
+              )}
             </Card.Body>
           </Card>
         </Col>

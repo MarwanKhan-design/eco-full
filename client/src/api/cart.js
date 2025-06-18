@@ -12,6 +12,5 @@ export const getCart = () => {
 export const postProductToCart = (productId, quantity) => {
   const user = localStorage.getItem("user");
   const parseData = JSON.parse(user);
-  console.log("user", user.name, parseData.name);
   return api.post(`/`, { productId, quantity, userId: parseData.id });
 };

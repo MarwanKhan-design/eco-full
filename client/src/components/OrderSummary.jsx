@@ -3,7 +3,7 @@ import { Card, Col, ListGroup, Row } from "react-bootstrap";
 
 export const OrderSummary = ({
   cartItems,
-  shippingPrice,
+  // shippingPrice,
   totalPrice,
   itemsPrice,
 }) => {
@@ -16,10 +16,10 @@ export const OrderSummary = ({
             <ListGroup.Item key={item._id}>
               <Row>
                 <Col xs={6}>
-                  {item.product.name} × {item.product.quantity}
+                  {item.product.name} × {item.quantity}
                 </Col>
                 <Col xs={6} className="text-end">
-                  ${(item.product.price * item.product.quantity).toFixed(2)}
+                  ${(item.product.price * item.quantity).toFixed(2)}
                 </Col>
               </Row>
             </ListGroup.Item>
@@ -34,14 +34,14 @@ export const OrderSummary = ({
 
           <ListGroup.Item>
             <Row>
-              <Col>Shipping</Col>
-              <Col className="text-end">
+              {/* <Col>Shipping</Col> */}
+              {/* <Col className="text-end">
                 {shippingPrice === 0 ? (
                   <span className="text-success">Free</span>
                 ) : (
                   `$${shippingPrice.toFixed(2)}`
                 )}
-              </Col>
+              </Col> */}
             </Row>
           </ListGroup.Item>
 

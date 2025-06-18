@@ -39,8 +39,7 @@ const CheckoutForm = ({ cartItems, loading, setCartItems }) => {
     (acc, item) => acc + item.product.price * item.quantity,
     0
   );
-  const shippingPrice = itemsPrice > 100 ? 0 : 10;
-  const totalPrice = (itemsPrice + shippingPrice).toFixed(2);
+  const totalPrice = itemsPrice.toFixed(2);
 
   useEffect(() => {
     if (!userInfo) {
@@ -85,7 +84,6 @@ const CheckoutForm = ({ cartItems, loading, setCartItems }) => {
       shippingAddress: formData.shippingAddress,
       paymentMethod: paymentMethod,
       itemsPrice,
-      shippingPrice,
       total: totalPrice,
     };
 
@@ -111,7 +109,6 @@ const CheckoutForm = ({ cartItems, loading, setCartItems }) => {
         <Col md={4}>
           <OrderSummary
             cartItems={cartItems}
-            shippingPrice={shippingPrice}
             totalPrice={totalPrice}
             itemsPrice={itemsPrice}
           />

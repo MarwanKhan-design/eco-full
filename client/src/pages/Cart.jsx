@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
-import { getCart } from "../api/cart";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  ListGroup,
+  Badge,
+} from "react-bootstrap";
+import { getCart, postProductToCart } from "../api/cart";
 import HeroSection from "../components/Hero";
 import { useNavigate } from "react-router-dom";
 
-const Cart = ({ cartItems }) => {
+const Cart = ({ cartItems, setCartItems }) => {
   const navigate = useNavigate();
   // Sample cart items data
 
@@ -15,6 +23,33 @@ const Cart = ({ cartItems }) => {
   );
   const tax = subtotal * 0.1; // 10% tax
   const total = subtotal + tax;
+
+  const changeQuantity = async (quantity, productId, symbol) => {
+    if (symbol === "-" && quantity !== 1) {
+      const res = await postProductToCart(productId, quantity + 1);
+      if (res.status === 200) {
+        setCartItems(
+          cartItems.map((item) =>
+            item.product._id === productId
+              ? { ...item, quantity: quantity - 1 }
+              : { ...item }
+          )
+        );
+      }
+    } else if (symbol === "+") {
+      const res = await postProductToCart(productId, quantity + 1);
+      if (res.status === 200) {
+        console.log("responce 200");
+        setCartItems(
+          cartItems.map((item) =>
+            item.product._id === productId
+              ? { ...item, quantity: quantity + 1 }
+              : { ...item }
+          )
+        );
+      }
+    }
+  };
 
   return (
     <>
@@ -40,7 +75,36 @@ const Cart = ({ cartItems }) => {
                           <strong>{item.product.name}</strong>
                         </Col>
                         <Col md={2}>${item.product.price.toFixed(2)}</Col>
-                        <Col md={2}>Qty: {item.quantity}</Col>
+                        <Col md={2}>
+                          {" "}
+                          <Badge
+                            style={{ cursor: "pointer" }}
+                            bg="secondary"
+                            onClick={() =>
+                              changeQuantity(
+                                item.quantity,
+                                item.product._id,
+                                "-"
+                              )
+                            }
+                          >
+                            -
+                          </Badge>
+                          {item.quantity} Qty:{" "}
+                          <Badge
+                            bg="primary"
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              changeQuantity(
+                                item.quantity,
+                                item.product._id,
+                                "+"
+                              )
+                            }
+                          >
+                            +
+                          </Badge>
+                        </Col>
                         <Col md={2} className="text-end">
                           ${(item.product.price * item.quantity).toFixed(2)}
                         </Col>
