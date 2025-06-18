@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api/cart",
+  baseURL: "https://server-production-28d3.up.railway.app/api/cart",
 });
 
 export const getCart = () => {
