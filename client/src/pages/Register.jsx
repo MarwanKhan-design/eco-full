@@ -2,11 +2,16 @@
 import { useState } from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
 import { registerUser } from "../api/auth";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../util/AuthContext";
 
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,7 +22,11 @@ export default function Register() {
     setError("");
     try {
       const { data } = await registerUser(form);
-      setSuccess("Registered successfully. Please login.");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setSuccess("Registered successfully.");
+      login();
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     }

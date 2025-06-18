@@ -22,7 +22,7 @@ export default function Login({ setCartItems }) {
       setCartItems(data.user.cart);
       console.log(data.user.cart);
       login();
-      navigate("/admin");
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
