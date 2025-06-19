@@ -21,8 +21,7 @@ const Cart = ({ cartItems, setCartItems }) => {
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  const tax = subtotal * 0.1; // 10% tax
-  const total = subtotal + tax;
+  const total = subtotal;
 
   const changeQuantity = async (quantity, productId, symbol) => {
     if (symbol === "-" && quantity !== 1) {

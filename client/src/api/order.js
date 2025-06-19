@@ -32,6 +32,15 @@ export const getOrder = (id) => {
     },
   });
 };
-export const updateOrderStatus = (id) => {
-  return api.get(`/${id}`);
+export const updateOrderStatus = (id, status) => {
+  const token = localStorage.getItem("token");
+  return api.put(
+    `/status/${id}`,
+    { status },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };

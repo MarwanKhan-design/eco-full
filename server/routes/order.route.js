@@ -15,6 +15,6 @@ router.post("/", protect, createOrder);
 router.get("/myorders", protect, getMyOrders);
 router.get("/:id", protect, getOrderById);
 router.get("/", protect, restrictToAdmin, getAllOrders);
-router.put("/:id/status", protect, restrictToAdmin, updateOrderStatus);
+router.put("/status/:id", protect, restrictToAdmin, updateOrderStatus);
 
 export default router;

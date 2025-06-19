@@ -8,20 +8,34 @@ import {
   Button,
   Table,
 } from "react-bootstrap";
-import { getOrder } from "../api/order";
+import { getOrder, updateOrderStatus } from "../api/order";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 
 const SingleOrder = () => {
   const [orderData, setOrderData] = useState();
+  const [status, setStatus] = useState("pending");
   const { id } = useParams();
   const getOrderById = async () => {
     try {
       const res = await getOrder(id);
       console.log("OrderData", res.data);
       setOrderData(res.data);
+      setStatus(res.data.status);
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  const handleStatusChange = (e) => {
+    const updatedStatus = e.target.value;
+    setStatus(updatedStatus);
+  };
+
+  const handleUpdateOrderStatus = async () => {
+    const res = await updateOrderStatus(orderData._id, status);
+    if (res.status === 200) {
+      console.log("Updated Status");
     }
   };
 
@@ -70,14 +84,23 @@ const SingleOrder = () => {
               <Form.Label>
                 <strong>Update Order Status</strong>
               </Form.Label>
-              <Form.Select className="mb-3">
-                <option>Pending</option>
-                <option>Processing</option>
-                <option>Shipped</option>
-                <option>Delivered</option>
-                <option>Cancelled</option>
+              <Form.Select
+                className="mb-3"
+                value={status}
+                onChange={(e) => handleStatusChange(e)}
+              >
+                <option value={"pending"}>Pending</option>
+                <option value={"processing"}>Processing</option>
+                <option value={"shipped"}>Shipped</option>
+                <option value={"delivered"}>Delivered</option>
+                <option value={"cancelled"}>Cancelled</option>
               </Form.Select>
-              <Button variant="primary">Update Status</Button>
+              <Button
+                variant="primary"
+                onClick={() => handleUpdateOrderStatus()}
+              >
+                Update Status
+              </Button>
             </Form.Group>
           </Form>
 
