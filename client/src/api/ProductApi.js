@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://server-production-28d3.up.railway.app/api/products",
+  baseURL: "https://eco-full-cn6m.vercel.app/api/products",
 });
 
 export const getProducts = () => {
